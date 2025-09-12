@@ -1,13 +1,12 @@
 "use client";
 
 import React, { useState } from "react";
-import { Box, Paper, Typography } from "@mui/material";
+import { Box, Paper } from "@mui/material";
 import { useChat } from "@/contexts/ChatContext";
 import MessageList from "../components/MessageList";
 import MessageInput from "../components/MessageInput";
 import {
   HelpIcon,
-  Logo,
   ShareIcon,
   StarsFilledIcon,
   StarsIcon,
@@ -15,7 +14,7 @@ import {
 import { IoAddOutline } from "react-icons/io5";
 
 const ChatContainer: React.FC = () => {
-  const { currentChat, isNewChat, createNewChat } = useChat();
+  const { currentChat, createNewChat } = useChat();
   const [selected, setSelected] = useState<number | null>(null);
   const [inputText, setInputText] = useState(""); // State to control the input text
 
@@ -95,45 +94,50 @@ const ChatContainer: React.FC = () => {
         {currentChat ? (
           <MessageList messages={currentChat.messages} />
         ) : (
-          <div className="p-8 flex flex-col justify-center h-full ml-96">
-            {/* Greeting */}
-            <div className="text-start items-start">
-              <h2 className="text-[28px] font-bold mb-2">
-                👋 Hi <span className="font-extrabold">Laurence!</span>
-              </h2>
+          <div className="flex items-center justify-center mt-10">
+            <div className="p-8 flex flex-col items-start justify-center">
+              {/* Greeting + Title */}
+              <div className="text-start mb-8">
+                <h2 className="text-[28px] font-bold mb-2">
+                  👋 Hi <span className="font-extrabold">Laurence!</span>
+                </h2>
 
-              {/* Main Title */}
-              <h1 className="text-[40px] font-bold leading-tight mb-8">
-                What do you want to <br /> learn today?
-              </h1>
-            </div>
+                <h1 className="text-[40px] font-bold leading-tight">
+                  What do you want to <br /> learn today?
+                </h1>
+              </div>
 
-            {/* Cards */}
-            <div className="flex gap-4">
-              {prompts.map((prompt) => (
-                <div
-                  key={prompt.id}
-                  onClick={() => handlePromptSelect(prompt.id, prompt.text)}
-                  className={`flex flex-col justify-between rounded-2xl border w-[220px] h-[236px] p-4 cursor-pointer transition
-                    ${
-                      selected === prompt.id
-                        ? "border-blue-500 border-2"
-                        : "border-transparent hover:border-[#96B6FF]"
-                    }`}
-                  style={{
-                    background:
-                      "conic-gradient(from 154.61deg at 80.43% -12.04%, #D9E4FF -93.6deg, #F8F9FC 42.55deg, #FFDDF8 157.8deg, #D9E4FF 266.4deg, #F8F9FC 402.55deg)",
-                  }}
-                >
-                  {/* Top icon circle */}
-                  {selected === prompt.id ? <StarsFilledIcon /> : <StarsIcon />}
+              {/* Cards */}
+              <div className="flex gap-4">
+                {prompts.map((prompt) => (
+                  <div
+                    key={prompt.id}
+                    onClick={() => handlePromptSelect(prompt.id, prompt.text)}
+                    className={`flex flex-col justify-between rounded-2xl border w-[220px] h-[236px] p-4 cursor-pointer transition
+            ${
+              selected === prompt.id
+                ? "border-blue-500 border-2"
+                : "border-transparent hover:border-[#96B6FF]"
+            }`}
+                    style={{
+                      background:
+                        "conic-gradient(from 154.61deg at 80.43% -12.04%, #D9E4FF -93.6deg, #F8F9FC 42.55deg, #FFDDF8 157.8deg, #D9E4FF 266.4deg, #F8F9FC 402.55deg)",
+                    }}
+                  >
+                    {/* Top icon circle */}
+                    {selected === prompt.id ? (
+                      <StarsFilledIcon />
+                    ) : (
+                      <StarsIcon />
+                    )}
 
-                  {/* Text */}
-                  <p className="mt-12 text-[16px] text-gray-800 font-bold">
-                    {prompt.text}
-                  </p>
-                </div>
-              ))}
+                    {/* Text */}
+                    <p className="mt-12 text-[16px] text-gray-800 font-bold">
+                      {prompt.text}
+                    </p>
+                  </div>
+                ))}
+              </div>
             </div>
           </div>
         )}
