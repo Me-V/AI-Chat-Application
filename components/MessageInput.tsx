@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useState, useEffect } from "react";
-import { Box, TextField, IconButton } from "@mui/material";
+import { Box, IconButton } from "@mui/material";
 import SendIcon from "@mui/icons-material/Send";
 import { useChat } from "@/contexts/ChatContext";
 
@@ -44,16 +44,19 @@ const MessageInput: React.FC<MessageInputProps> = ({
     <Box
       component="form"
       onSubmit={handleSubmit}
-      sx={{ display: "flex", gap: 1 }}
+      sx={{ display: "flex", gap: 1, alignItems: "center" }}
     >
-      <TextField
-        fullWidth
-        variant="outlined"
-        placeholder="Type your message..."
+      {/* Normal input field */}
+      <input
+        type="text"
+        placeholder="Ask me a question..."
         value={message}
         onChange={handleChange}
-        size="small"
+        className="text-[16px] flex-1 border border-gray-300 rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
+        style={{ height: "75px" }}
       />
+
+      {/* Send Button */}
       <IconButton
         type="submit"
         color="primary"
@@ -67,6 +70,8 @@ const MessageInput: React.FC<MessageInputProps> = ({
           "&:disabled": {
             bgcolor: "action.disabled",
           },
+          height: "40px",
+          width: "40px",
         }}
       >
         <SendIcon />
