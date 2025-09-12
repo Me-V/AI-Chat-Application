@@ -18,6 +18,12 @@ export const ChatProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
   const [chats, setChats] = useState<Chat[]>([]);
   const [currentChat, setCurrentChat] = useState<Chat | null>(null);
 
+  // Helper function to generate title from message text
+  const generateTitleFromMessage = (text: string) => {
+    const words = text.trim().split(/\s+/);
+    return words.slice(0, 4).join(' ') + (words.length > 4 ? '...' : '');
+  };
+
   const createNewChat = () => {
     const newChat: Chat = {
       id: Date.now().toString(),
@@ -37,11 +43,19 @@ export const ChatProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
   };
 
   const sendMessage = async (text: string) => {
-    if (!currentChat) {
-      createNewChat();
-      // Wait for state update before proceeding
-      setTimeout(() => sendMessage(text), 100);
-      return;
+    let targetChat = currentChat;
+    
+    // If no current chat exists, create a new one
+    if (!targetChat) {
+      const newChat: Chat = {
+        id: Date.now().toString(),
+        title: generateTitleFromMessage(text),
+        messages: [],
+        createdAt: new Date(),
+      };
+      setCurrentChat(newChat);
+      setChats(prev => [newChat, ...prev]);
+      targetChat = newChat;
     }
 
     const userMessage: Message = {
@@ -51,11 +65,12 @@ export const ChatProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
       timestamp: new Date(),
     };
 
-    // Update current chat with user message
+    // Update chat with user message
     const updatedChat = {
-      ...currentChat,
-      messages: [...currentChat.messages, userMessage],
-      title: currentChat.messages.length === 0 ? text.slice(0, 30) + (text.length > 30 ? '...' : '') : currentChat.title
+      ...targetChat,
+      messages: [...targetChat.messages, userMessage],
+      // Update title if it's the first message (was "New Chat")
+      title: targetChat.messages.length === 0 ? generateTitleFromMessage(text) : targetChat.title
     };
 
     setCurrentChat(updatedChat);

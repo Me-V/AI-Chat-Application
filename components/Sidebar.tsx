@@ -12,13 +12,22 @@ import {
   useTheme,
   TextField,
 } from "@mui/material";
-import AddIcon from "@mui/icons-material/Add";
 import KeyboardArrowLeftIcon from "@mui/icons-material/KeyboardArrowLeft";
-import MenuIcon from "@mui/icons-material/Menu";
-import ChatIcon from "@mui/icons-material/Chat";
-import HistoryIcon from "@mui/icons-material/History";
 import { useChat } from "@/contexts/ChatContext";
-import { Logo, ChatingIcon, ControlH, ProfileAsset } from "@/utils/logos";
+import {
+  Logo,
+  ChatingIcon,
+  ControlH,
+  ProfileAsset,
+  FileIcon,
+  ClockIcon,
+  GlobeIcon,
+  ControlT,
+  ControlG,
+  ControlL,
+  CompanyLogo,
+  LikeIcon,
+} from "@/utils/logos";
 import { FaArrowRightLong } from "react-icons/fa6";
 import { IoIosRocket } from "react-icons/io";
 import Image from "next/image";
@@ -47,6 +56,7 @@ const Sidebar: React.FC = () => {
         height: "100%",
         display: "flex",
         flexDirection: "column",
+        backgroundColor: "#F8F9FC",
       }}
       role="presentation"
     >
@@ -93,8 +103,8 @@ const Sidebar: React.FC = () => {
         component="form"
         sx={{
           "& > :not(style)": {
-            m: 1,
             width: "30ch",
+            height: "40px",
             marginLeft: 2,
             paddingX: 3,
             border: "2px solid #F3F3F3",
@@ -131,6 +141,7 @@ const Sidebar: React.FC = () => {
           "& > :not(style)": {
             m: 1,
             width: "30ch",
+            height: "40px",
             marginLeft: 2,
             paddingX: 3,
             border: "2px solid #F3F3F3",
@@ -155,10 +166,10 @@ const Sidebar: React.FC = () => {
               justifyContent: "center",
             }}
           >
-            {/* <fileIcon /> */}
+            <FileIcon />
             <span style={{ marginLeft: "10px" }}>Library</span>
           </Box>
-          <ControlH />
+          <ControlT />
         </Box>
       </Box>
       <Box
@@ -166,6 +177,7 @@ const Sidebar: React.FC = () => {
         sx={{
           "& > :not(style)": {
             width: "30ch",
+            height: "40px",
             marginLeft: 2,
             paddingX: 3,
             border: "2px solid #F3F3F3",
@@ -190,10 +202,10 @@ const Sidebar: React.FC = () => {
               justifyContent: "center",
             }}
           >
-            <ChatingIcon />
+            <ClockIcon />
             <span style={{ marginLeft: "10px" }}>History</span>
           </Box>
-          <ControlH />
+          <ControlG />
         </Box>
       </Box>
       <Box
@@ -202,6 +214,7 @@ const Sidebar: React.FC = () => {
           "& > :not(style)": {
             m: 1,
             width: "30ch",
+            height: "40px",
             marginLeft: 2,
             paddingX: 3,
             border: "2px solid #F3F3F3",
@@ -226,17 +239,19 @@ const Sidebar: React.FC = () => {
               justifyContent: "center",
             }}
           >
-            <ChatingIcon />
+            <GlobeIcon />
             <span className="text-[16px]" style={{ marginLeft: "10px" }}>
               Explore
             </span>
           </Box>
-          <ControlH />
+          <ControlL />
         </Box>
       </Box>
 
       {/* Chat List */}
-      <div className="flex-1 overflow-auto my-2">
+      <div className="flex-1 overflow-auto mb-2">
+        <h1 className="text-[16px] font-bold ml-5 my-1">Recent Chats</h1>
+
         {visibleChats.map((chat) => (
           <div
             key={chat.id}
@@ -316,38 +331,30 @@ const Sidebar: React.FC = () => {
     >
       <Tooltip title="Open sidebar" placement="right">
         <IconButton onClick={toggleDrawer(true)}>
-          <MenuIcon />
-        </IconButton>
-      </Tooltip>
-
-      <Tooltip title="New chat" placement="right">
-        <IconButton onClick={createNewChat} color="primary">
-          <AddIcon />
+          <CompanyLogo />
         </IconButton>
       </Tooltip>
 
       <Divider sx={{ width: "80%" }} />
 
-      <Box sx={{ flexGrow: 1, overflow: "auto", width: "100%" }}>
-        {chats.slice(0, 8).map((chat, index) => (
-          <Tooltip key={chat.id} title={chat.title} placement="right">
-            <IconButton
-              onClick={() => selectChat(chat.id)}
-              sx={{
-                width: "100%",
-                borderRadius: 0,
-                color: currentChat?.id === chat.id ? "primary.main" : "inherit",
-              }}
-            >
-              <ChatIcon fontSize="small" />
-            </IconButton>
-          </Tooltip>
-        ))}
-      </Box>
-
-      <Tooltip title="Chat history" placement="right">
-        <IconButton>
-          <HistoryIcon />
+      <Tooltip title="Home" placement="right">
+        <IconButton onClick={toggleDrawer(true)} color="primary">
+          <ChatingIcon />
+        </IconButton>
+      </Tooltip>
+      <Tooltip title="Library" placement="right">
+        <IconButton onClick={toggleDrawer(true)} color="primary">
+          <FileIcon />
+        </IconButton>
+      </Tooltip>
+      <Tooltip title="History" placement="right">
+        <IconButton onClick={toggleDrawer(true)} color="primary">
+          <ClockIcon />
+        </IconButton>
+      </Tooltip>
+      <Tooltip title="Favorites" placement="right">
+        <IconButton onClick={toggleDrawer(true)} color="primary">
+          <LikeIcon />
         </IconButton>
       </Tooltip>
     </Box>
