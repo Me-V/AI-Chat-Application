@@ -16,6 +16,7 @@ import { IoAddOutline } from "react-icons/io5";
 import { GrAttachment } from "react-icons/gr";
 import { MdCameraAlt, MdKeyboardArrowDown } from "react-icons/md";
 import AttachmentsSection from "./AttachmentsSection";
+import AiModalsDropdown from "./AiModalsDropdown";
 
 const ChatContainer: React.FC = () => {
   const { currentChat, createNewChat } = useChat();
@@ -79,7 +80,7 @@ const ChatContainer: React.FC = () => {
           justifyContent: "space-between",
         }}
       >
-        <div className="h-7 w-20 sm:h-9 sm:w-24 bg-gray-200 rounded-full"></div>
+        <AiModalsDropdown />  
         <Typography variant="h6" className="flex items-center gap-2">
           {currentChat?.title || "New Chat"}
           <MdKeyboardArrowDown />
