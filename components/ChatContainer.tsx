@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useState } from "react";
-import { Box, Paper, Tooltip } from "@mui/material";
+import { Box, Paper, Tooltip, Typography } from "@mui/material";
 import { useChat } from "@/contexts/ChatContext";
 import MessageList from "../components/MessageList";
 import MessageInput from "../components/MessageInput";
@@ -14,7 +14,7 @@ import {
 } from "@/utils/logos";
 import { IoAddOutline } from "react-icons/io5";
 import { GrAttachment } from "react-icons/gr";
-import { MdCameraAlt } from "react-icons/md";
+import { MdCameraAlt, MdKeyboardArrowDown } from "react-icons/md";
 import AttachmentsSection from "./AttachmentsSection";
 
 const ChatContainer: React.FC = () => {
@@ -80,7 +80,10 @@ const ChatContainer: React.FC = () => {
         }}
       >
         <div className="h-7 w-20 sm:h-9 sm:w-24 bg-gray-200 rounded-full"></div>
-
+        <Typography variant="h6" className="flex items-center gap-2">
+          {currentChat?.title || "New Chat"}
+          <MdKeyboardArrowDown />
+        </Typography>
         <div className="flex items-center gap-2 sm:gap-3">
           <ShareIcon className="hidden xs:block" />
           <HelpIcon className="hidden xs:block" />
@@ -99,7 +102,7 @@ const ChatContainer: React.FC = () => {
       {/* Message List */}
       <Box sx={{ flexGrow: 1, overflow: "auto", height: "100%" }}>
         {currentChat ? (
-          <MessageList messages={currentChat.messages} />
+          <div className="mx-[25%]"><MessageList messages={currentChat.messages} /></div>
         ) : (
           <div className="flex items-center justify-center px-4">
             <div className="p-4 sm:p-8 flex flex-col items-center justify-center w-full max-w-5xl">
