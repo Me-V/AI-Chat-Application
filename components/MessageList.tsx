@@ -116,12 +116,12 @@ const MessageList: React.FC<MessageListProps> = ({ messages }) => {
                       attachment.preview ? (
                         <Box
                           sx={{
-                            width: "312px",
-                            height: "312px",
+                            
                             borderRadius: 1,
                             overflow: "hidden",
                             position: "relative",
                           }}
+                          className="w-[200px] h-[200px] md:w-[312px] md:h-[312px]"
                         >
                           <Image
                             src={attachment.preview}
@@ -131,26 +131,25 @@ const MessageList: React.FC<MessageListProps> = ({ messages }) => {
                             className="rounded object-cover"
                           />
                           <Box
-      sx={{
-        position: "absolute",
-        top: 8,
-        right: 8,
-        backgroundColor: "rgba(255, 255, 255, 0.8)",
-        borderRadius: "50%",
-        padding: "6px",
-        cursor: "pointer",
-        transition: "0.2s",
-        display: "flex",
-        alignItems: "center",
-        justifyContent: "center",
-        "&:hover": {
-          backgroundColor: "rgba(255, 255, 255, 1)",
-        },
-      }}
-      
-    >
-      <DownloadIcon />
-    </Box>
+                            sx={{
+                              position: "absolute",
+                              top: 8,
+                              right: 8,
+                              backgroundColor: "rgba(255, 255, 255, 0.8)",
+                              borderRadius: "50%",
+                              padding: "6px",
+                              cursor: "pointer",
+                              transition: "0.2s",
+                              display: "flex",
+                              alignItems: "center",
+                              justifyContent: "center",
+                              "&:hover": {
+                                backgroundColor: "rgba(255, 255, 255, 1)",
+                              },
+                            }}
+                          >
+                            <DownloadIcon />
+                          </Box>
                         </Box>
                       ) : (
                         <Box

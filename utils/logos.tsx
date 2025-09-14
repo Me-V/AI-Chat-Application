@@ -399,6 +399,7 @@ export const CompanyLogo: React.FC<React.SVGProps<SVGSVGElement>> = (props) => (
     viewBox="0 0 41 40"
     fill="none"
     xmlns="http://www.w3.org/2000/svg"
+    {...props}
   >
     <rect x="2.5" y="2" width="36" height="36" rx="18" fill="#2063FF" />
     <path

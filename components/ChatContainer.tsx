@@ -89,10 +89,10 @@ const ChatContainer: React.FC = () => {
         }}
       >
         <AiModalsDropdown/>
-        <Typography variant="h6" className="flex items-center gap-2">
+        <h1 className="flex items-center gap-2 text-[10px] md:text-[20px]">
           {currentChat?.title || "New Chat"}
           <MdKeyboardArrowDown />
-        </Typography>
+        </h1>
         <div className="flex items-center gap-2 sm:gap-3">
           <ShareIcon className="hidden xs:block" />
           <HelpIcon className="hidden xs:block" />

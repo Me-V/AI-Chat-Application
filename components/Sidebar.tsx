@@ -360,7 +360,13 @@ const Sidebar: React.FC = () => {
   return (
     <>
       {/* Permanent mini drawer */}
-      {!open && MiniDrawer}
+      {!open && !isMobile && MiniDrawer}
+
+      {isMobile && (
+        <>
+          <CompanyLogo className="ml-2" onClick={toggleDrawer(true)}/>
+        </>
+      )}
 
       {/* Temporary drawer for mobile, persistent for desktop */}
       <Drawer

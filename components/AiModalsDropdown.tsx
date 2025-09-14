@@ -27,7 +27,7 @@ export default function ModelDropdown() {
   const [selected, setSelected] = useState("claude");
 
   return (
-    <Box sx={{ width: 220, borderRadius: "24px" }}>
+    <Box sx={{ borderRadius: "24px" }} className="md:w-[133px] w-[100px]">
       <Select
         fullWidth
         value={selected}
@@ -38,7 +38,7 @@ export default function ModelDropdown() {
           return (
             <Box display="flex" alignItems="center" gap={1}>
               <span style={{ fontSize: "18px" }}>{item?.icon}</span>
-              {item?.name}
+              <p className="md:text-[18px] text-[12px]">{item?.name}</p>
             </Box>
           );
         }}
@@ -53,7 +53,7 @@ export default function ModelDropdown() {
             <ListItemIcon>
               <span style={{ fontSize: "18px" }}>{model.icon}</span>
             </ListItemIcon>
-            <ListItemText>{model.name}</ListItemText>
+            <p className="text-[18px]">{model.name}</p>
             {selected === model.id && (
               <CheckIcon sx={{ marginLeft: "auto", color: "primary.main" }} />
             )}
