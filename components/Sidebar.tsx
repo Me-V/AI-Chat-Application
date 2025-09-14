@@ -10,7 +10,6 @@ import {
   Tooltip,
   useMediaQuery,
   useTheme,
-  TextField,
 } from "@mui/material";
 import KeyboardArrowLeftIcon from "@mui/icons-material/KeyboardArrowLeft";
 import { useChat } from "@/contexts/ChatContext";
@@ -31,15 +30,15 @@ import {
 import { FaArrowRightLong } from "react-icons/fa6";
 import { IoIosRocket } from "react-icons/io";
 import Image from "next/image";
+import { CiSearch } from "react-icons/ci";
 
 const Sidebar: React.FC = () => {
-  const { chats, currentChat, createNewChat, selectChat } = useChat();
+  const { chats, currentChat, selectChat } = useChat();
   const [open, setOpen] = React.useState(false);
   const theme = useTheme();
   const isMobile = useMediaQuery(theme.breakpoints.down("md"));
   const [showAll, setShowAll] = useState(false);
-
-  const visibleChats = showAll ? chats : chats.slice(0, 3);
+  const [searchQuery, setSearchQuery] = useState("");
 
   const toggleDrawer = (newOpen: boolean) => () => {
     setOpen(newOpen);
@@ -47,6 +46,20 @@ const Sidebar: React.FC = () => {
 
   const drawerWidth = 300;
   const miniDrawerWidth = 64;
+
+  const filteredChats =
+    searchQuery.trim() === ""
+      ? chats
+      : chats.filter((chat) =>
+          chat.title.toLowerCase().includes(searchQuery.toLowerCase())
+        );
+
+  const visibleChats =
+    searchQuery.trim() === ""
+      ? showAll
+        ? chats
+        : chats.slice(0, 3)
+      : filteredChats;
 
   const DrawerList = (
     <Box
@@ -85,14 +98,22 @@ const Sidebar: React.FC = () => {
         </IconButton>
       </Box>
 
-      <Box
-        component="form"
-        sx={{ "& > :not(style)": { m: 1, width: "30ch", marginLeft: 2 } }}
-        noValidate
-        autoComplete="off"
-      >
-        <TextField id="outlined-basic" label="Search" />
-      </Box>
+      <div className="relative w-[80%] max-w-sm ml-7 mb-2 ">
+        <span className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400">
+          <CiSearch size={18} />
+        </span>
+        <input
+          type="text"
+          placeholder="Search for chats..."
+          value={searchQuery}
+          onChange={(e) => {
+            setSearchQuery(e.target.value);
+            setShowAll(false); 
+          }}
+          className="w-full pl-10 pr-4 py-2 rounded-2xl border border-gray-200 focus:outline-none focus:ring-2 focus:ring-blue-400 shadow-sm text-sm placeholder-gray-400"
+        />
+      </div>
+
       <Box
         component="form"
         sx={{
@@ -116,13 +137,7 @@ const Sidebar: React.FC = () => {
             justifyContent: "space-between",
           }}
         >
-          <Box
-            sx={{
-              display: "flex",
-              alignItems: "center",
-              justifyContent: "center",
-            }}
-          >
+          <Box sx={{ display: "flex", alignItems: "center" }}>
             <ChatingIcon />
             <span style={{ marginLeft: "10px" }}>Home</span>
           </Box>
@@ -145,20 +160,8 @@ const Sidebar: React.FC = () => {
         noValidate
         autoComplete="off"
       >
-        <Box
-          sx={{
-            display: "flex",
-            alignItems: "center",
-            justifyContent: "space-between",
-          }}
-        >
-          <Box
-            sx={{
-              display: "flex",
-              alignItems: "center",
-              justifyContent: "center",
-            }}
-          >
+        <Box sx={{ display: "flex", alignItems: "center", justifyContent: "space-between" }}>
+          <Box sx={{ display: "flex", alignItems: "center" }}>
             <FileIcon />
             <span style={{ marginLeft: "10px" }}>Library</span>
           </Box>
@@ -180,20 +183,8 @@ const Sidebar: React.FC = () => {
         noValidate
         autoComplete="off"
       >
-        <Box
-          sx={{
-            display: "flex",
-            alignItems: "center",
-            justifyContent: "space-between",
-          }}
-        >
-          <Box
-            sx={{
-              display: "flex",
-              alignItems: "center",
-              justifyContent: "center",
-            }}
-          >
+        <Box sx={{ display: "flex", alignItems: "center", justifyContent: "space-between" }}>
+          <Box sx={{ display: "flex", alignItems: "center" }}>
             <ClockIcon />
             <span style={{ marginLeft: "10px" }}>History</span>
           </Box>
@@ -216,20 +207,8 @@ const Sidebar: React.FC = () => {
         noValidate
         autoComplete="off"
       >
-        <Box
-          sx={{
-            display: "flex",
-            alignItems: "center",
-            justifyContent: "space-between",
-          }}
-        >
-          <Box
-            sx={{
-              display: "flex",
-              alignItems: "center",
-              justifyContent: "center",
-            }}
-          >
+        <Box sx={{ display: "flex", alignItems: "center", justifyContent: "space-between" }}>
+          <Box sx={{ display: "flex", alignItems: "center" }}>
             <GlobeIcon />
             <span className="text-[16px]" style={{ marginLeft: "10px" }}>
               Explore
@@ -247,9 +226,7 @@ const Sidebar: React.FC = () => {
             key={chat.id}
             onClick={() => {
               selectChat(chat.id);
-              if (isMobile) {
-                setOpen(false);
-              }
+              if (isMobile) setOpen(false);
             }}
             className={`flex items-center gap-3 mb-1 mx-5 px-4 py-2 cursor-pointer rounded-lg ${
               currentChat?.id === chat.id ? "border border-[#EBEBEB]" : ""
@@ -263,7 +240,7 @@ const Sidebar: React.FC = () => {
           </div>
         ))}
 
-        {chats.length > 3 && (
+        {searchQuery.trim() === "" && chats.length > 3 && (
           <div className="mx-5 mt-2 flex ">
             <button
               onClick={() => setShowAll((prev) => !prev)}
@@ -285,6 +262,7 @@ const Sidebar: React.FC = () => {
         </div>
         <IoIosRocket />
       </div>
+
       <div className="flex justify-between items-center border border-[#EBEBEB] my-3 mx-5 py-2 px-3 rounded-lg">
         <div className="flex justify-start items-center">
           <Image
@@ -354,9 +332,7 @@ const Sidebar: React.FC = () => {
       {!open && !isMobile && MiniDrawer}
 
       {isMobile && (
-        <>
-          <CompanyLogo className="ml-2" onClick={toggleDrawer(true)} />
-        </>
+        <CompanyLogo className="ml-2" onClick={toggleDrawer(true)} />
       )}
 
       <Drawer
