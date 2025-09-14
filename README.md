@@ -136,5 +136,5 @@ Icons from React Icons
 
 ## Live At 
 ```
-https://wwww.nexdocs-project.vercel.app
+https://www.nexdocs-project.vercel.app
 ```
