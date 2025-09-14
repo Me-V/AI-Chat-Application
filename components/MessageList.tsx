@@ -1,14 +1,10 @@
 "use client";
 
 import React, { useEffect, useRef } from "react";
-import { Box, Paper, Typography, Avatar } from "@mui/material";
+import { Box, Paper, Typography } from "@mui/material";
 import { Message } from "@/types";
 import Image from "next/image";
 import { DownloadIcon, SourcesPlaceholder } from "@/utils/logos";
-import DescriptionIcon from "@mui/icons-material/Description";
-import PictureAsPdfIcon from "@mui/icons-material/PictureAsPdf";
-import InsertDriveFileIcon from "@mui/icons-material/InsertDriveFile";
-import { FiDownload } from "react-icons/fi";
 
 interface MessageListProps {
   messages: Message[];
@@ -21,16 +17,6 @@ const MessageList: React.FC<MessageListProps> = ({ messages }) => {
     endOfMessagesRef.current?.scrollIntoView({ behavior: "smooth" });
   }, [messages]);
 
-  const getFileIcon = (type: string) => {
-    if (type.includes("image")) {
-      return null;
-    } else if (type.includes("pdf")) {
-      return <PictureAsPdfIcon sx={{ color: "#f40f02", fontSize: 20 }} />;
-    } else if (type.includes("word") || type.includes("document")) {
-      return <DescriptionIcon sx={{ color: "#2962ff", fontSize: 20 }} />;
-    }
-    return <InsertDriveFileIcon sx={{ color: "#666", fontSize: 20 }} />;
-  };
 
   return (
     <Box sx={{ p: 2 }}>
@@ -49,7 +35,6 @@ const MessageList: React.FC<MessageListProps> = ({ messages }) => {
               display: "flex",
               flexDirection: message.sender === "user" ? "row-reverse" : "row",
               alignItems: "flex-start",
-              // maxWidth: "70%",
             }}
           >
             <Paper
@@ -88,16 +73,14 @@ const MessageList: React.FC<MessageListProps> = ({ messages }) => {
                 {message.text}
               </Typography>
 
-              {/* Attachments */}
-              {/* Attachments */}
               {message.attachments && message.attachments.length > 0 && (
                 <Box
                   sx={{
                     mt: 2,
                     display: "flex",
                     flexDirection: "row",
-                    flexWrap: "wrap", // allows wrapping if many
-                    gap: 1, // spacing between items
+                    flexWrap: "wrap",
+                    gap: 1,
                   }}
                 >
                   {message.attachments.map((attachment) => (
@@ -158,7 +141,7 @@ const MessageList: React.FC<MessageListProps> = ({ messages }) => {
                             justifyContent: "center",
                             flexDirection: "column",
                             p: 2,
-                            borderRadius: 2, // optional, looks nicer with curves
+                            borderRadius: 2,
                             background:
                               "conic-gradient(from 154.61deg at 80.43% -12.04%, #D9E4FF -93.6deg, #F8F9FC 42.55deg, #FFDDF8 157.8deg, #D9E4FF 266.4deg, #F8F9FC 402.55deg)",
                           }}

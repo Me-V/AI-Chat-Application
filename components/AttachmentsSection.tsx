@@ -1,10 +1,5 @@
 import React, { useState, useRef, useCallback } from "react";
 import { Paper, IconButton, Box, Typography, Button } from "@mui/material";
-import DeleteIcon from "@mui/icons-material/Delete";
-import RemoveIcon from "@mui/icons-material/Remove";
-import AttachFileIcon from "@mui/icons-material/AttachFile";
-import CameraAltIcon from "@mui/icons-material/CameraAlt";
-import AddIcon from "@mui/icons-material/Add";
 import SendIcon from '@mui/icons-material/Send';
 import { IoMdAdd } from "react-icons/io";
 import { TrashIcon } from "@/utils/logos";
@@ -133,7 +128,6 @@ const AttachmentsSection: React.FC<AttachmentsSectionProps> = ({
       onPaste={handlePaste}
       onDragOver={(e) => e.preventDefault()}
     >
-      {/* Header */}
       <Box
         sx={{
           display: "flex",
@@ -185,7 +179,6 @@ const AttachmentsSection: React.FC<AttachmentsSectionProps> = ({
         </Box>
       </Box>
 
-      {/* Attachments list */}
       <Box sx={{ mb: 2 }}>
         {attachments.map((attachment) => (
           <Box
@@ -238,7 +231,6 @@ const AttachmentsSection: React.FC<AttachmentsSectionProps> = ({
         ))}
       </Box>
 
-      {/* Message input and send button */}
       <Box sx={{ display: 'flex', gap: 1, alignItems: 'center' }}>
         <input
           type="text"
@@ -269,7 +261,6 @@ const AttachmentsSection: React.FC<AttachmentsSectionProps> = ({
         </Button>
       </Box>
 
-      {/* Drop zone hint */}
       {attachments.length === 0 && (
         <Box
           onClick={handleAddClick}

@@ -1,6 +1,6 @@
 import type { Metadata } from 'next';
 import { ThemeProvider } from '@mui/material/styles';
-import "./globals.css"; // Tailwind first
+import "./globals.css"; 
 import CssBaseline from '@mui/material/CssBaseline';
 import theme from '@/theme';
 

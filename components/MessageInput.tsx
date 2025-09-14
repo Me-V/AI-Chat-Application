@@ -19,7 +19,6 @@ const MessageInput: React.FC<MessageInputProps> = ({
   const [message, setMessage] = useState(initialText);
   const { sendMessage } = useChat();
 
-  // Update internal state when initialText changes
   useEffect(() => {
     setMessage(initialText);
   }, [initialText]);
@@ -46,7 +45,6 @@ const MessageInput: React.FC<MessageInputProps> = ({
       onSubmit={handleSubmit}
       sx={{ display: "flex", gap: 1, alignItems: "center" }}
     >
-      {/* Normal input field */}
       <input
         type="text"
         placeholder="Ask me a question..."
@@ -56,7 +54,6 @@ const MessageInput: React.FC<MessageInputProps> = ({
         style={{ height: "75px" }}
       />
 
-      {/* Send Button */}
       <IconButton
         type="submit"
         color="primary"

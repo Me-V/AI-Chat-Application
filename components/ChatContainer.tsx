@@ -74,7 +74,6 @@ const ChatContainer: React.FC = () => {
         flexGrow: 1,
       }}
     >
-      {/* Header */}
       <Paper
         elevation={0}
         sx={{
@@ -108,14 +107,12 @@ const ChatContainer: React.FC = () => {
         </div>
       </Paper>
 
-      {/* Message List */}
       <Box sx={{ flexGrow: 1, overflow: "auto", height: "100%" }}>
         {currentChat ? (
           <div className="mx-[25%]"><MessageList messages={currentChat.messages} /></div>
         ) : (
           <div className="flex items-center justify-center px-4">
             <div className="p-4 sm:p-8 flex flex-col items-center justify-center w-full max-w-5xl">
-              {/* Greeting + Title */}
               <div className="md:pl-36 pl-0 text-start mb-6 sm:mb-8 w-full">
                 <h2 className="text-[22px] sm:text-[28px] font-bold mb-2">
                   👋 Hi <span className="font-extrabold">Laurence!</span>
@@ -127,7 +124,6 @@ const ChatContainer: React.FC = () => {
                 </h1>
               </div>
 
-              {/* Cards */}
               <div className="flex flex-col sm:flex-row gap-4 w-full sm:w-auto justify-center">
                 {prompts.map((prompt) => (
                   <div
@@ -160,7 +156,6 @@ const ChatContainer: React.FC = () => {
         )}
       </Box>
 
-      {/* Message Input Area */}
       <Box
         sx={{
           position: "sticky",
@@ -186,14 +181,12 @@ const ChatContainer: React.FC = () => {
             minHeight: { xs: "100px", sm: "128px" },
           }}
         >
-          {/* Message Input */}
           <MessageInput
             initialText={inputText}
             onTextChange={handleInputChange}
             onSendMessage={handleSendMessage}
           />
 
-          {/* Attachment and Camera Icons */}
           <div className="flex gap-2 mt-2">
             <Tooltip title="Attach File">
               <GrAttachment
@@ -209,7 +202,6 @@ const ChatContainer: React.FC = () => {
         </Paper>
       </Box>
 
-      {/* Attachments Dialog */}
       <Dialog
         open={attachmentsOpen}
         onClose={handleAttachmentsClose}

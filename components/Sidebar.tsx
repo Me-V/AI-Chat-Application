@@ -39,7 +39,6 @@ const Sidebar: React.FC = () => {
   const isMobile = useMediaQuery(theme.breakpoints.down("md"));
   const [showAll, setShowAll] = useState(false);
 
-  // show only 3 chats unless "View more" is clicked
   const visibleChats = showAll ? chats : chats.slice(0, 3);
 
   const toggleDrawer = (newOpen: boolean) => () => {
@@ -52,7 +51,6 @@ const Sidebar: React.FC = () => {
   const DrawerList = (
     <Box
       sx={{
-        // width: drawerWidth,
         height: "100%",
         display: "flex",
         flexDirection: "column",
@@ -60,7 +58,6 @@ const Sidebar: React.FC = () => {
       }}
       role="presentation"
     >
-      {/* Header */}
       <Box
         sx={{
           p: 2,
@@ -74,9 +71,6 @@ const Sidebar: React.FC = () => {
         <Typography variant="h6">
           <Logo />
         </Typography>
-        {/* <IconButton onClick={createNewChat} color="primary">
-          <AddIcon />
-        </IconButton> */}
         <IconButton
           onClick={() => setOpen(false)}
           sx={{
@@ -245,7 +239,6 @@ const Sidebar: React.FC = () => {
         </Box>
       </Box>
 
-      {/* Chat List */}
       <div className="flex-1 overflow-auto mb-2">
         <h1 className="text-[16px] font-bold ml-5 my-1">Recent Chats</h1>
 
@@ -270,7 +263,6 @@ const Sidebar: React.FC = () => {
           </div>
         ))}
 
-        {/* View more / less toggle */}
         {chats.length > 3 && (
           <div className="mx-5 mt-2 flex ">
             <button
@@ -359,16 +351,14 @@ const Sidebar: React.FC = () => {
 
   return (
     <>
-      {/* Permanent mini drawer */}
       {!open && !isMobile && MiniDrawer}
 
       {isMobile && (
         <>
-          <CompanyLogo className="ml-2" onClick={toggleDrawer(true)}/>
+          <CompanyLogo className="ml-2" onClick={toggleDrawer(true)} />
         </>
       )}
 
-      {/* Temporary drawer for mobile, persistent for desktop */}
       <Drawer
         variant={isMobile ? "temporary" : "persistent"}
         open={open}
@@ -384,7 +374,7 @@ const Sidebar: React.FC = () => {
           },
         }}
         ModalProps={{
-          keepMounted: true, // Better open performance on mobile.
+          keepMounted: true,
         }}
       >
         {DrawerList}

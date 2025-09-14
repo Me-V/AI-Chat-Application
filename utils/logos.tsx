@@ -1,7 +1,6 @@
 "use client";
 import React from "react";
 
-// 🔹 Example 1: Your Logo
 export const Logo: React.FC<React.SVGProps<SVGSVGElement>> = (props) => (
   <svg
     width="117"
@@ -43,7 +42,6 @@ export const Logo: React.FC<React.SVGProps<SVGSVGElement>> = (props) => (
   </svg>
 );
 
-// 🔹 Example 2: Another Icon
 export const ChatGPT: React.FC<React.SVGProps<SVGSVGElement>> = (props) => (
   <svg
     width="20"
@@ -162,7 +160,6 @@ export const StarsFilledIcon: React.FC<React.SVGProps<SVGSVGElement>> = (
   </svg>
 );
 
-// 🔹 Example 3: Placeholder for future icons
 export const ChatingIcon: React.FC<React.SVGProps<SVGSVGElement>> = (props) => (
   <svg
     width="24"
@@ -193,12 +190,27 @@ export const LikeIcon: React.FC<React.SVGProps<SVGSVGElement>> = (props) => (
     />
   </svg>
 );
-export const DownloadIcon: React.FC<React.SVGProps<SVGSVGElement>> = (props) => (
-  <svg width="36" height="36" viewBox="0 0 36 36" fill="none" xmlns="http://www.w3.org/2000/svg">
-<path d="M0 18C0 8.05888 8.05888 0 18 0C27.9411 0 36 8.05888 36 18C36 27.9411 27.9411 36 18 36C8.05888 36 0 27.9411 0 18Z" fill="#F8F9FC"/>
-<path fillRule="evenodd" clipRule="evenodd" d="M18 9.875C18.3452 9.875 18.625 10.1548 18.625 10.5V20.2411L21.3081 17.5581C21.5521 17.314 21.9479 17.314 22.1919 17.5581C22.436 17.8021 22.436 18.1979 22.1919 18.4419L18.4419 22.1919C18.1979 22.436 17.8021 22.436 17.5581 22.1919L13.8081 18.4419C13.564 18.1979 13.564 17.8021 13.8081 17.5581C14.0521 17.314 14.4479 17.314 14.6919 17.5581L17.375 20.2411V10.5C17.375 10.1548 17.6548 9.875 18 9.875ZM10.5 21.125C10.8452 21.125 11.125 21.4048 11.125 21.75V23.625C11.125 24.3154 11.6846 24.875 12.375 24.875H23.625C24.3154 24.875 24.875 24.3154 24.875 23.625V21.75C24.875 21.4048 25.1548 21.125 25.5 21.125C25.8452 21.125 26.125 21.4048 26.125 21.75V23.625C26.125 25.0057 25.0057 26.125 23.625 26.125H12.375C10.9943 26.125 9.875 25.0057 9.875 23.625V21.75C9.875 21.4048 10.1548 21.125 10.5 21.125Z" fill="#0440CB"/>
-</svg>
-
+export const DownloadIcon: React.FC<React.SVGProps<SVGSVGElement>> = (
+  props
+) => (
+  <svg
+    width="36"
+    height="36"
+    viewBox="0 0 36 36"
+    fill="none"
+    xmlns="http://www.w3.org/2000/svg"
+  >
+    <path
+      d="M0 18C0 8.05888 8.05888 0 18 0C27.9411 0 36 8.05888 36 18C36 27.9411 27.9411 36 18 36C8.05888 36 0 27.9411 0 18Z"
+      fill="#F8F9FC"
+    />
+    <path
+      fillRule="evenodd"
+      clipRule="evenodd"
+      d="M18 9.875C18.3452 9.875 18.625 10.1548 18.625 10.5V20.2411L21.3081 17.5581C21.5521 17.314 21.9479 17.314 22.1919 17.5581C22.436 17.8021 22.436 18.1979 22.1919 18.4419L18.4419 22.1919C18.1979 22.436 17.8021 22.436 17.5581 22.1919L13.8081 18.4419C13.564 18.1979 13.564 17.8021 13.8081 17.5581C14.0521 17.314 14.4479 17.314 14.6919 17.5581L17.375 20.2411V10.5C17.375 10.1548 17.6548 9.875 18 9.875ZM10.5 21.125C10.8452 21.125 11.125 21.4048 11.125 21.75V23.625C11.125 24.3154 11.6846 24.875 12.375 24.875H23.625C24.3154 24.875 24.875 24.3154 24.875 23.625V21.75C24.875 21.4048 25.1548 21.125 25.5 21.125C25.8452 21.125 26.125 21.4048 26.125 21.75V23.625C26.125 25.0057 25.0057 26.125 23.625 26.125H12.375C10.9943 26.125 9.875 25.0057 9.875 23.625V21.75C9.875 21.4048 10.1548 21.125 10.5 21.125Z"
+      fill="#0440CB"
+    />
+  </svg>
 );
 export const ControlH: React.FC<React.SVGProps<SVGSVGElement>> = (props) => (
   <svg

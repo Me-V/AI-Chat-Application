@@ -5,7 +5,7 @@ export interface Attachment {
   size: string;
   url?: string;
   preview?: string;
-  progress?: number; // Add this line
+  progress?: number;
 }
 
 export interface Message {
