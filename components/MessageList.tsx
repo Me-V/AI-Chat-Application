@@ -4,10 +4,11 @@ import React, { useEffect, useRef } from "react";
 import { Box, Paper, Typography, Avatar } from "@mui/material";
 import { Message } from "@/types";
 import Image from "next/image";
-import { SourcesPlaceholder } from "@/utils/logos";
+import { DownloadIcon, SourcesPlaceholder } from "@/utils/logos";
 import DescriptionIcon from "@mui/icons-material/Description";
 import PictureAsPdfIcon from "@mui/icons-material/PictureAsPdf";
 import InsertDriveFileIcon from "@mui/icons-material/InsertDriveFile";
+import { FiDownload } from "react-icons/fi";
 
 interface MessageListProps {
   messages: Message[];
@@ -129,6 +130,27 @@ const MessageList: React.FC<MessageListProps> = ({ messages }) => {
                             height={312}
                             className="rounded object-cover"
                           />
+                          <Box
+      sx={{
+        position: "absolute",
+        top: 8,
+        right: 8,
+        backgroundColor: "rgba(255, 255, 255, 0.8)",
+        borderRadius: "50%",
+        padding: "6px",
+        cursor: "pointer",
+        transition: "0.2s",
+        display: "flex",
+        alignItems: "center",
+        justifyContent: "center",
+        "&:hover": {
+          backgroundColor: "rgba(255, 255, 255, 1)",
+        },
+      }}
+      
+    >
+      <DownloadIcon />
+    </Box>
                         </Box>
                       ) : (
                         <Box
