@@ -1,12 +1,11 @@
 "use client";
 
 import React, { useState } from "react";
-import { Box, Paper, Tooltip, Typography } from "@mui/material";
+import { Box, Paper, Tooltip, Typography, Dialog, DialogContent, IconButton } from "@mui/material";
 import { useChat } from "@/contexts/ChatContext";
 import MessageList from "../components/MessageList";
 import MessageInput from "../components/MessageInput";
 import {
-  AttachIcon,
   HelpIcon,
   ShareIcon,
   StarsFilledIcon,
@@ -14,15 +13,16 @@ import {
 } from "@/utils/logos";
 import { IoAddOutline } from "react-icons/io5";
 import { GrAttachment } from "react-icons/gr";
-import { MdCameraAlt, MdKeyboardArrowDown } from "react-icons/md";
+import { MdCameraAlt, MdKeyboardArrowDown, MdClose } from "react-icons/md";
 import AttachmentsSection from "./AttachmentsSection";
+import { Attachment } from '@/types';
 import AiModalsDropdown from "./AiModalsDropdown";
 
 const ChatContainer: React.FC = () => {
-  const { currentChat, createNewChat } = useChat();
+  const { currentChat, createNewChat, sendMessage } = useChat();
   const [selected, setSelected] = useState<number | null>(null);
   const [inputText, setInputText] = useState("");
-  const [showAttachments, setShowAttachments] = useState(false); // State to control attachments visibility
+  const [attachmentsOpen, setAttachmentsOpen] = useState(false);
 
   const prompts = [
     { id: 1, text: "Give me a concise summary of this meeting transcript" },
@@ -53,8 +53,16 @@ const ChatContainer: React.FC = () => {
     setSelected(null);
   };
 
-  const toggleAttachments = () => {
-    setShowAttachments(!showAttachments);
+  const handleAttachmentsOpen = () => {
+    setAttachmentsOpen(true);
+  };
+
+  const handleAttachmentsClose = () => {
+    setAttachmentsOpen(false);
+  };
+
+  const handleSendWithAttachments = (attachments: Attachment[], message?: string) => {
+    sendMessage(message || '', attachments);
   };
 
   return (
@@ -80,7 +88,7 @@ const ChatContainer: React.FC = () => {
           justifyContent: "space-between",
         }}
       >
-        <AiModalsDropdown />  
+        <AiModalsDropdown/>
         <Typography variant="h6" className="flex items-center gap-2">
           {currentChat?.title || "New Chat"}
           <MdKeyboardArrowDown />
@@ -175,16 +183,9 @@ const ChatContainer: React.FC = () => {
             backgroundColor: "background.default",
             borderRadius: "16px",
             width: { xs: "100%", sm: "692px" },
-            minHeight: showAttachments ? "auto" : { xs: "100px", sm: "128px" },
+            minHeight: { xs: "100px", sm: "128px" },
           }}
         >
-          {/* Attachments Section - Conditionally rendered */}
-          {showAttachments && (
-            <Box sx={{ mb: 2 }}>
-              <AttachmentsSection />
-            </Box>
-          )}
-
           {/* Message Input */}
           <MessageInput
             initialText={inputText}
@@ -197,8 +198,8 @@ const ChatContainer: React.FC = () => {
             <Tooltip title="Attach File">
               <GrAttachment
                 className="mt-2 ml-1 cursor-pointer"
-                onClick={toggleAttachments}
-                style={{ color: showAttachments ? "#2063FF" : "inherit" }}
+                onClick={handleAttachmentsOpen}
+                style={{ color: attachmentsOpen ? "#2063FF" : "inherit" }}
               />
             </Tooltip>
             <Tooltip title="Camera">
@@ -207,6 +208,58 @@ const ChatContainer: React.FC = () => {
           </div>
         </Paper>
       </Box>
+
+      {/* Attachments Dialog */}
+      <Dialog
+        open={attachmentsOpen}
+        onClose={handleAttachmentsClose}
+        maxWidth="sm"
+        fullWidth
+        PaperProps={{
+          sx: {
+            borderRadius: 2,
+            boxShadow: '0px 4px 20px rgba(0, 0, 0, 0.1)',
+          }
+        }}
+      >
+        <DialogContent sx={{ p: 0 }}>
+          <Box sx={{ 
+            display: 'flex', 
+            alignItems: 'center', 
+            justifyContent: 'space-between', 
+            p: 2,
+            borderBottom: '1px solid',
+            borderColor: 'divider'
+          }}>
+            <Box sx={{ 
+              width: 8, 
+              height: 8, 
+              borderRadius: '50%', 
+              backgroundColor: attachmentsOpen ? '#2063FF' : 'transparent' 
+            }} />
+            <Typography variant="h6" sx={{ fontWeight: 'medium', flexGrow: 1, textAlign: 'center' }}>
+              Attachments
+            </Typography>
+            <IconButton 
+              onClick={handleAttachmentsClose} 
+              size="small"
+              sx={{ 
+                color: 'text.secondary',
+                '&:hover': { backgroundColor: 'grey.100' }
+              }}
+            >
+              <MdClose size={20} />
+            </IconButton>
+          </Box>
+
+          <Box sx={{ p: 2 }}>
+            <AttachmentsSection 
+              onSendWithAttachments={handleSendWithAttachments}
+              onClose={handleAttachmentsClose}
+            />
+          </Box>
+        </DialogContent>
+      </Dialog>
     </Box>
   );
 };

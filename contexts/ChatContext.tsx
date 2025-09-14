@@ -1,14 +1,14 @@
 'use client';
 
 import React, { createContext, useContext, useState, ReactNode } from 'react';
-import { Message, Chat } from '@/types';
+import { Message, Chat, Attachment } from '@/types';
 
 interface ChatContextType {
   chats: Chat[];
   currentChat: Chat | null;
   isNewChat: boolean;
   createNewChat: () => void;
-  sendMessage: (text: string) => void;
+  sendMessage: (text: string, attachments?: Attachment[]) => void;
   selectChat: (chatId: string) => void;
 }
 
@@ -18,7 +18,6 @@ export const ChatProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
   const [chats, setChats] = useState<Chat[]>([]);
   const [currentChat, setCurrentChat] = useState<Chat | null>(null);
 
-  // Helper function to generate title from message text
   const generateTitleFromMessage = (text: string) => {
     const words = text.trim().split(/\s+/);
     return words.slice(0, 4).join(' ') + (words.length > 4 ? '...' : '');
@@ -42,14 +41,13 @@ export const ChatProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
     }
   };
 
-  const sendMessage = async (text: string) => {
+  const sendMessage = async (text: string, attachments: Attachment[] = []) => {
     let targetChat = currentChat;
     
-    // If no current chat exists, create a new one
     if (!targetChat) {
       const newChat: Chat = {
         id: Date.now().toString(),
-        title: generateTitleFromMessage(text),
+        title: text ? generateTitleFromMessage(text) : 'File shared',
         messages: [],
         createdAt: new Date(),
       };
@@ -63,20 +61,20 @@ export const ChatProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
       text,
       sender: 'user',
       timestamp: new Date(),
+      attachments: attachments.length > 0 ? attachments : undefined,
     };
 
-    // Update chat with user message
     const updatedChat = {
       ...targetChat,
       messages: [...targetChat.messages, userMessage],
-      // Update title if it's the first message (was "New Chat")
-      title: targetChat.messages.length === 0 ? generateTitleFromMessage(text) : targetChat.title
+      title: targetChat.messages.length === 0 && text 
+        ? generateTitleFromMessage(text) 
+        : targetChat.title
     };
 
     setCurrentChat(updatedChat);
     setChats(prev => prev.map(chat => chat.id === updatedChat.id ? updatedChat : chat));
 
-    // Simulate assistant response after a delay
     setTimeout(() => {
       const assistantMessage: Message = {
         id: Date.now().toString(),

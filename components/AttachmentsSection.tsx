@@ -1,24 +1,28 @@
 import React, { useState, useRef, useCallback } from "react";
-import { Paper, IconButton, Box, Typography } from "@mui/material";
+import { Paper, IconButton, Box, Typography, Button } from "@mui/material";
 import DeleteIcon from "@mui/icons-material/Delete";
 import RemoveIcon from "@mui/icons-material/Remove";
 import AttachFileIcon from "@mui/icons-material/AttachFile";
 import CameraAltIcon from "@mui/icons-material/CameraAlt";
 import AddIcon from "@mui/icons-material/Add";
+import SendIcon from '@mui/icons-material/Send';
 import { IoMdAdd } from "react-icons/io";
 import { TrashIcon } from "@/utils/logos";
 import { FiMinus } from "react-icons/fi";
 import { GrAttachment } from "react-icons/gr";
+import { Attachment } from '@/types';
 
-interface Attachment {
-  id: string;
-  name: string;
-  size: string;
-  progress?: number;
+interface AttachmentsSectionProps {
+  onSendWithAttachments: (attachments: Attachment[], message?: string) => void;
+  onClose: () => void;
 }
 
-const AttachmentsSection: React.FC = () => {
+const AttachmentsSection: React.FC<AttachmentsSectionProps> = ({ 
+  onSendWithAttachments, 
+  onClose 
+}) => {
   const [attachments, setAttachments] = useState<Attachment[]>([]);
+  const [messageText, setMessageText] = useState('');
 
   const fileInputRef = useRef<HTMLInputElement>(null);
 
@@ -36,17 +40,28 @@ const AttachmentsSection: React.FC = () => {
     }
   }, []);
 
-  const handleFiles = (files: File[]) => {
-    const newAttachments: Attachment[] = files.map((file, index) => ({
-      id: Date.now() + index.toString(),
-      name: file.name,
-      size: formatFileSize(file.size),
-      progress: 0,
-    }));
+  const handleFiles = async (files: File[]) => {
+    const newAttachments: Attachment[] = await Promise.all(
+      files.map(async (file, index) => {
+        let preview: string | undefined;
+        
+        if (file.type.includes('image')) {
+          preview = URL.createObjectURL(file);
+        }
+
+        return {
+          id: Date.now() + index.toString(),
+          name: file.name,
+          type: file.type,
+          size: formatFileSize(file.size),
+          preview,
+          progress: 0
+        };
+      })
+    );
 
     setAttachments((prev) => [...prev, ...newAttachments]);
 
-    // Simulate upload progress
     newAttachments.forEach((attachment, index) => {
       simulateUpload(attachment.id);
     });
@@ -94,6 +109,15 @@ const AttachmentsSection: React.FC = () => {
     }
   };
 
+  const handleSend = () => {
+    if (attachments.length > 0) {
+      onSendWithAttachments(attachments, messageText);
+      setAttachments([]);
+      setMessageText('');
+      onClose();
+    }
+  };
+
   return (
     <Paper
       elevation={0}
@@ -122,7 +146,6 @@ const AttachmentsSection: React.FC = () => {
           Attached Files
         </Typography>
         <Box sx={{ display: "flex", alignItems: "center", gap: 1 }}>
-          {/* Camera icon (non-functional) */}
           <IconButton
             onClick={deleteAllAttachments}
             size="small"
@@ -131,7 +154,6 @@ const AttachmentsSection: React.FC = () => {
             <TrashIcon />
           </IconButton>
 
-          {/* Add button */}
           <IconButton
             size="small"
             sx={{
@@ -153,7 +175,6 @@ const AttachmentsSection: React.FC = () => {
             <IoMdAdd size={16} color="#0440CB" />
           </IconButton>
 
-          {/* Hidden file input */}
           <input
             type="file"
             ref={fileInputRef}
@@ -175,7 +196,6 @@ const AttachmentsSection: React.FC = () => {
               justifyContent: "space-between",
               p: 1,
               mb: 1,
-
               borderColor: "divider",
             }}
           >
@@ -197,20 +217,8 @@ const AttachmentsSection: React.FC = () => {
                   {attachment.name}
                 </Typography>
                 <Typography variant="caption" sx={{ color: "text.secondary" }}>
-                  {/* {attachment.size} */}
+                  {attachment.size}
                 </Typography>
-                {/* {attachment.progress !== undefined && attachment.progress < 100 && (
-                  <Box sx={{ width: '100%', height: 2, backgroundColor: 'grey.200', mt: 0.5 }}>
-                    <Box 
-                      sx={{ 
-                        height: '100%', 
-                        backgroundColor: '#2063FF',
-                        width: `${attachment.progress}%`,
-                        transition: 'width 0.3s ease'
-                      }} 
-                    />
-                  </Box>
-                )} */}
               </Box>
             </Box>
             {attachment.progress !== undefined && attachment.progress < 100 && (
@@ -228,6 +236,37 @@ const AttachmentsSection: React.FC = () => {
             </IconButton>
           </Box>
         ))}
+      </Box>
+
+      {/* Message input and send button */}
+      <Box sx={{ display: 'flex', gap: 1, alignItems: 'center' }}>
+        <input
+          type="text"
+          placeholder="Add a message (optional)"
+          value={messageText}
+          onChange={(e) => setMessageText(e.target.value)}
+          style={{
+            flexGrow: 1,
+            padding: '8px 12px',
+            border: '1px solid #ddd',
+            borderRadius: '20px',
+            fontSize: '14px',
+            outline: 'none'
+          }}
+        />
+        <Button
+          variant="contained"
+          onClick={handleSend}
+          disabled={attachments.length === 0}
+          sx={{ 
+            minWidth: 'auto', 
+            borderRadius: '20px',
+            backgroundColor: '#2063FF',
+            '&:hover': { backgroundColor: '#1a56db' }
+          }}
+        >
+          <SendIcon />
+        </Button>
       </Box>
 
       {/* Drop zone hint */}

@@ -5,6 +5,9 @@ import { Box, Paper, Typography, Avatar } from "@mui/material";
 import { Message } from "@/types";
 import Image from "next/image";
 import { SourcesPlaceholder } from "@/utils/logos";
+import DescriptionIcon from "@mui/icons-material/Description";
+import PictureAsPdfIcon from "@mui/icons-material/PictureAsPdf";
+import InsertDriveFileIcon from "@mui/icons-material/InsertDriveFile";
 
 interface MessageListProps {
   messages: Message[];
@@ -16,6 +19,17 @@ const MessageList: React.FC<MessageListProps> = ({ messages }) => {
   useEffect(() => {
     endOfMessagesRef.current?.scrollIntoView({ behavior: "smooth" });
   }, [messages]);
+
+  const getFileIcon = (type: string) => {
+    if (type.includes("image")) {
+      return null;
+    } else if (type.includes("pdf")) {
+      return <PictureAsPdfIcon sx={{ color: "#f40f02", fontSize: 20 }} />;
+    } else if (type.includes("word") || type.includes("document")) {
+      return <DescriptionIcon sx={{ color: "#2962ff", fontSize: 20 }} />;
+    }
+    return <InsertDriveFileIcon sx={{ color: "#666", fontSize: 20 }} />;
+  };
 
   return (
     <Box sx={{ p: 2 }}>
@@ -34,7 +48,7 @@ const MessageList: React.FC<MessageListProps> = ({ messages }) => {
               display: "flex",
               flexDirection: message.sender === "user" ? "row-reverse" : "row",
               alignItems: "flex-start",
-              maxWidth: "70%",
+              // maxWidth: "70%",
             }}
           >
             <Paper
@@ -72,6 +86,85 @@ const MessageList: React.FC<MessageListProps> = ({ messages }) => {
                 )}
                 {message.text}
               </Typography>
+
+              {/* Attachments */}
+              {/* Attachments */}
+              {message.attachments && message.attachments.length > 0 && (
+                <Box
+                  sx={{
+                    mt: 2,
+                    display: "flex",
+                    flexDirection: "row",
+                    flexWrap: "wrap", // allows wrapping if many
+                    gap: 1, // spacing between items
+                  }}
+                >
+                  {message.attachments.map((attachment) => (
+                    <Box
+                      key={attachment.id}
+                      sx={{
+                        display: "flex",
+                        alignItems: "center",
+
+                        backgroundColor: "rgba(255, 255, 255, 0.5)",
+                        borderRadius: 1,
+                        gap: 1,
+                      }}
+                    >
+                      {attachment.type.includes("image") &&
+                      attachment.preview ? (
+                        <Box
+                          sx={{
+                            width: "312px",
+                            height: "312px",
+                            borderRadius: 1,
+                            overflow: "hidden",
+                            position: "relative",
+                          }}
+                        >
+                          <Image
+                            src={attachment.preview}
+                            alt={attachment.name}
+                            width={312}
+                            height={312}
+                            className="rounded object-cover"
+                          />
+                        </Box>
+                      ) : (
+                        <Box
+                          sx={{
+                            display: "flex",
+                            justifyContent: "center",
+                            flexDirection: "column",
+                            p: 2,
+                            borderRadius: 2, // optional, looks nicer with curves
+                            background:
+                              "conic-gradient(from 154.61deg at 80.43% -12.04%, #D9E4FF -93.6deg, #F8F9FC 42.55deg, #FFDDF8 157.8deg, #D9E4FF 266.4deg, #F8F9FC 402.55deg)",
+                          }}
+                        >
+                          {attachment.type.includes("pdf") ? (
+                            <p className="text-[14px] text-[#D246B6] font-semibold">
+                              PDF
+                            </p>
+                          ) : (
+                            <p className="text-[14px] text-[#0440CB] font-semibold">
+                              DOCX
+                            </p>
+                          )}
+                          <Typography
+                            variant="body2"
+                            noWrap
+                            sx={{ fontWeight: "medium" }}
+                            className="text-[#989898]"
+                          >
+                            {attachment.name}
+                          </Typography>
+                        </Box>
+                      )}
+                    </Box>
+                  ))}
+                </Box>
+              )}
             </Paper>
           </Box>
         </Box>
